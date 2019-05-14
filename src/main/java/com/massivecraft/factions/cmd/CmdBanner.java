@@ -12,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.text.DecimalFormat;
+
 public class CmdBanner extends FCommand {
 	public CmdBanner() {
 		super();
@@ -73,11 +75,17 @@ public class CmdBanner extends FCommand {
 		}
 	}
 
+	public String commas(double amount){
+		DecimalFormat formatter = new DecimalFormat("#,###.00");
+		String number = formatter.format(amount);
+		return number;
+	}
+
 	public void takeMoney(FPlayer fme, int amt) {
 		if (hasMoney(fme, amt)) {
 			Economy econ = SavageFactions.plugin.getEcon();
 			econ.withdrawPlayer(fme.getPlayer(), amt);
-			fme.sendMessage(TL.COMMAND_BANNER_MONEYTAKE.toString().replace("{amount}", amt + ""));
+			fme.sendMessage(TL.COMMAND_BANNER_MONEYTAKE.toString().replace("{amount}", commas(amt)));
 		}
 	}
 
