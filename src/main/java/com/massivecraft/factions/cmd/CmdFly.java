@@ -193,14 +193,14 @@ public class CmdFly extends FCommand {
 		}
 
 		if (args.size() == 0) {
-			toggleFlight(!fme.isFlying(), me);
+			toggleFlight(fme.isFlying(), me);
 		} else if (args.size() == 1) {
 			toggleFlight(argAsBool(0), me);
 		}
 	}
 
 	private void toggleFlight(final boolean toggle, final Player player) {
-		if (!toggle) {
+		if (toggle) {
 			fme.setFlying(false);
 			flyMap.remove(player.getName());
 			return;
