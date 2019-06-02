@@ -501,8 +501,9 @@ public enum TL {
 	COMMAND_PEACEFUL_REVOKE("removed peaceful status from"),
 
 	COMMAND_PERM_DESCRIPTION("&c&l[!]&7&6Edit or list your Faction's permissions."),
-	COMMAND_PERM_INVALID_RELATION("&c&l[!]&7Invalid relation defined. Try something like&c 'ally'"),
-	COMMAND_PERM_INVALID_ACCESS("&c&l[!]&7 Invalid access defined. Try something like &c'allow'"),
+	COMMAND_PERM_SYNTAX("&c&l[!] You can alternatively just use a command! \n &cex: /f perm recruit chest allow"),
+	COMMAND_PERM_INVALID_RELATION("&c&l[!]&7Invalid relation defined. Try something like&c 'ally or recruit or even all'"),
+	COMMAND_PERM_INVALID_ACCESS("&c&l[!]&7 Invalid access defined. Try something like &c'allow or deny'"),
 	COMMAND_PERM_INVALID_ACTION("&c&l[!]&7 Invalid action defined. Try something like &c'build'"),
 	COMMAND_PERM_SET("&c&l[!]&7 Set permission&c %1$s &7to &c%2$s &7for relation&c %3$s"),
 	COMMAND_PERM_TOP("RCT MEM OFF ALLY TRUCE NEUT ENEMY"),

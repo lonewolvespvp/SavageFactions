@@ -41,6 +41,7 @@ public class CmdPerm extends FCommand {
 	@Override
 	public void perform() {
 		if (args.size() == 0) {
+            fme.msg(TL.COMMAND_PERM_SYNTAX);
 			PermissableRelationGUI gui = new PermissableRelationGUI(fme);
 			gui.build();
 
