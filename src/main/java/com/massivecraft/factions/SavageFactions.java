@@ -61,9 +61,6 @@ public class SavageFactions extends MPlugin {
 	public static boolean startupFinished = false;
 
 
-	// Persistence related
-	public static ArrayList<FPlayer> playersFlying = new ArrayList();
-
 	public boolean PlaceholderApi;
 	// Commands
 	public FCmdRoot cmdBase;
@@ -174,10 +171,6 @@ public class SavageFactions extends MPlugin {
 				continue;
 			}
 			faction.addFPlayer(fPlayer);
-		}
-		playersFlying.clear();
-		for (FPlayer fPlayer : FPlayers.getInstance().getAllFPlayers()) {
-			playersFlying.add(fPlayer);
 		}
 		UtilFly.run();
 
