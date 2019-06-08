@@ -1039,23 +1039,22 @@ public abstract class MemoryFPlayer implements FPlayer {
 	@Override
 	public boolean checkIfNearbyEnemies() {
 		Player me = this.getPlayer();
-		if (me == null)  return false;
-
 		int radius = Conf.stealthFlyCheckRadius;
 		for (Entity e : me.getNearbyEntities(radius, 255, radius)) {
-			if (e == null)
+			if (e == null) {
 				continue;
-
+			}
 			if (e instanceof Player) {
 				Player eplayer = (((Player) e).getPlayer());
-				if (eplayer == null)
+				if (eplayer == null) {
 					continue;
-
+				}
 				FPlayer efplayer = FPlayers.getInstance().getByPlayer(eplayer);
-				if (efplayer == null)
+				if (efplayer == null) {
 					continue;
-
-				if (efplayer != null && this.getRelationTo(efplayer).equals(Relation.ENEMY) && !efplayer.isStealthEnabled()) {
+				}
+				if (efplayer.isVanished()) continue;
+				if (this.getRelationTo(efplayer).equals(Relation.ENEMY) && !efplayer.isStealthEnabled()) {
 					setFlying(false);
 					msg(TL.COMMAND_FLY_ENEMY_NEAR);
 					Bukkit.getServer().getPluginManager().callEvent(new FPlayerStoppedFlying(this));
