@@ -1,6 +1,5 @@
 package com.massivecraft.factions.listeners;
 
-import com.earth2me.essentials.User;
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.cmd.CmdFly;
 import com.massivecraft.factions.cmd.CmdSeeChunk;
@@ -25,7 +24,6 @@ import com.massivecraft.factions.zcore.util.TextUtil;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -635,8 +633,8 @@ public class FactionsPlayerListener implements Listener {
         Block block = event.getClickedBlock();
         Player player = event.getPlayer();
         // Check if the material is bypassing protection
-        if (Conf.territoryBypasssProtectedMaterials.contains(block.getType())) return;
         if (block == null) return;  // clicked in air, apparently
+        if (Conf.territoryBypasssProtectedMaterials.contains(block.getType())) return;
         if (GetPermissionFromUsableBlock(event.getClickedBlock().getType()) != null) {
             if (!canPlayerUseBlock(player, block, false)) {
                 event.setCancelled(true);
