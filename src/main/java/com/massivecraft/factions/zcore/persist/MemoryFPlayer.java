@@ -740,7 +740,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 			error = SavageFactions.plugin.txt.parse(TL.CLAIM_PROTECTED.toString());
 		} else if (flocation.isOutsideWorldBorder(SavageFactions.plugin.getConfig().getInt("world-border.buffer", 0))) {
 			error = SavageFactions.plugin.txt.parse(TL.CLAIM_OUTSIDEWORLDBORDER.toString());
-		} else if (Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
+		} else if (Conf.useWorldConfigurationsAsWhitelist != Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
 			error = SavageFactions.plugin.txt.parse(TL.CLAIM_DISABLED.toString());
 		} else if (this.isAdminBypassing()) {
 			return true;
