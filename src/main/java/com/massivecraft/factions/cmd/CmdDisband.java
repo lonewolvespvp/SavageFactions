@@ -59,7 +59,7 @@ public class CmdDisband extends FCommand {
 		}
 
 
-		if (!fme.isAdminBypassing()) {
+		if (fme != null && !fme.isAdminBypassing()) {
 			Access access = faction.getAccess(fme, PermissableAction.DISBAND);
 			if (fme.getRole() != Role.LEADER && faction.getFPlayerLeader() != fme && access != Access.ALLOW) {
 				fme.msg(TL.GENERIC_FPERM_NOPERMISSION, "disband " + faction.getTag());
