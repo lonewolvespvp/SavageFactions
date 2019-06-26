@@ -42,7 +42,8 @@ public class Essentials {
 	}
 
 	public static boolean isVanished(Player player) {
-        User user = essentials.getUser(player);
-        return essentials != null && user != null && user.isVanished();
+		if (essentials == null) return false;
+		User user = essentials.getUser(player);
+		return user != null && user.isVanished();
 	}
 }

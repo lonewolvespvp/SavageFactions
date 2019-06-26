@@ -322,6 +322,8 @@ public class Conf {
 	// mainly for other plugins/mods that use a fake player to take actions, which shouldn't be subject to our protections
 	public static Set<String> playersWhoBypassAllProtection = new LinkedHashSet<>();
 
+	public static boolean useWorldConfigurationsAsWhitelist = false;
+
 	public static Set<String> worldsNoClaiming = new LinkedHashSet<>();
 	public static Set<String> worldsNoPowerLoss = new LinkedHashSet<>();
 	public static Set<String> worldsIgnorePvP = new LinkedHashSet<>();
