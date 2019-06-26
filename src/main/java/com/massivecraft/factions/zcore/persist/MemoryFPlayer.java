@@ -80,7 +80,6 @@ public abstract class MemoryFPlayer implements FPlayer {
 	protected boolean isStealthEnabled = false;
 	boolean playerAlerts = false;
 	boolean inspectMode = false;
-
 	public MemoryFPlayer() {
 	}
 
@@ -719,6 +718,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 	}
 
+
 	public boolean canClaimForFaction(Faction forFaction) {
 		return this.isAdminBypassing() || !forFaction.isWilderness() && (forFaction == this.getFaction() && this.getRole().isAtLeast(Role.MODERATOR)) || (forFaction.isSafeZone() && Permission.MANAGE_SAFE_ZONE.has(getPlayer())) || (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer()));
 	}
@@ -1011,6 +1011,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 			this.stopWarmup();
 		}
 	}
+
 
 	@Override
 	public void stopWarmup() {

@@ -108,11 +108,6 @@ public class CmdCreate extends FCommand {
 		if (SavageFactions.plugin.getConfig().getBoolean("fpaypal.Enabled")) {
 			this.fme.msg(TL.COMMAND_PAYPALSET_CREATED);
 		}
-		if (Conf.useCustomDefaultPermissions) {
-			faction.setDefaultPerms();
-			if (Conf.usePermissionHints)
-				this.fme.msg(TL.COMMAND_HINT_PERMISSION);
-		}
 	}
 
 	@Override

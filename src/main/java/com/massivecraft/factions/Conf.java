@@ -2,7 +2,6 @@ package com.massivecraft.factions;
 
 import com.google.common.collect.ImmutableMap;
 import com.massivecraft.factions.integration.dynmap.DynmapStyle;
-import com.massivecraft.factions.util.MultiversionMaterials;
 import com.massivecraft.factions.zcore.fperms.DefaultPermissions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -341,9 +340,7 @@ public class Conf {
 
 
 	// Default Options - Is this even shown on the Conf.json?
-	public static boolean useCustomDefaultPermissions = false;
-	public static boolean usePermissionHints = false;
-	public static HashMap<String, DefaultPermissions> defaultFactionPermissions = new HashMap<>();
+	public static transient HashMap<String, DefaultPermissions> defaultFactionPermissions = new HashMap<>();
 	// Custom Ranks - Oof I forgot I was doing this _SvenjaReissaus_
 	//public static boolean enableCustomRanks = false; // We will disable it by default to avoid any migration error
 	//public static int maxCustomRanks = 2; // Setting this to -1 will allow unlimited custom ranks
