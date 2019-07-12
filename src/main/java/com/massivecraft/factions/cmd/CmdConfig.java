@@ -4,6 +4,7 @@ import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.SavageFactions;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TL;
+import me.tom.sparse.spigot.chat.menu.ChatMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,8 +23,8 @@ public class CmdConfig extends FCommand {
         super();
         this.aliases.add("config");
 
-        this.requiredArgs.add("setting");
-        this.requiredArgs.add("value");
+        this.optionalArgs.put("", "setting");
+        this.optionalArgs.put("", "value");
         this.errorOnToManyArgs = false;
 
         this.permission = Permission.CONFIG.node;
@@ -38,6 +39,13 @@ public class CmdConfig extends FCommand {
 
     @Override
     public void perform() {
+        if (args.isEmpty()) {
+            ChatMenu chatMenu = new ChatMenu();
+            
+
+            return;
+        }
+
         // store a lookup map of lowercase field names paired with proper capitalization field names
         // that way, if the person using this command messes up the capitalization, we can fix that
         if (properFieldNames.isEmpty()) {

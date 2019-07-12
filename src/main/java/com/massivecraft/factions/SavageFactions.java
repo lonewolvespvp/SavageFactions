@@ -127,6 +127,7 @@ public class SavageFactions extends MPlugin {
 
     @Override
     public void onEnable() {
+        super.onEnable();
         log("==== Setup ====");
 
 
@@ -466,6 +467,7 @@ public class SavageFactions extends MPlugin {
 
     @Override
     public void onDisable() {
+        super.onDisable();
         // only save data if plugin actually completely loaded successfully
         if (this.loadSuccessful) {
             // Dont save, as this is kind of pointless, as the /f config command manually saves.

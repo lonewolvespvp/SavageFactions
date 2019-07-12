@@ -12,6 +12,7 @@ import com.massivecraft.factions.zcore.util.PermUtil;
 import com.massivecraft.factions.zcore.util.Persist;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TextUtil;
+import net.prosavage.baseplugin.BasePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,7 +26,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 
-public abstract class MPlugin extends JavaPlugin {
+public abstract class MPlugin extends BasePlugin {
 
     // Persist related
     public final Gson gson = this.getGsonBuilder().create();

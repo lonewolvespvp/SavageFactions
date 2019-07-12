@@ -57,6 +57,10 @@
                             <pattern>com.darkblade12</pattern>
                             <shadedPattern>com.massivecraft.factions.shade.com.darkblade12</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>net.prosavage.baseplugin</pattern>
+                            <shadedPattern>com.massivecraft.factions.shade.prosavagebaseplugin</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -314,12 +318,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.6.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.10.3</version>
@@ -355,7 +353,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>net.prosavage</groupId>
+            <artifactId>BasePlugin</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>
