@@ -17,8 +17,8 @@ public class CmdVersion extends FCommand {
 
     @Override
     public void perform(CommandContext context) {
-        context.msg(TL.COMMAND_VERSION_NAME); // Did this so people can differentiate between SavageFactions and FactionsUUID (( Requested Feature ))
-        context.msg(TL.COMMAND_VERSION_VERSION, SavageFactions.plugin.getDescription().getFullName());
+        context.msg("&c&l[!] &fLW-Factions &c» &7By ProSavage");
+        context.msg("&c&l[!] &7Version &c» &72.5");
     }
 
     @Override

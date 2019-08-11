@@ -24,10 +24,6 @@ public class CmdPerm extends FCommand {
 		this.aliases.add("permission");
 		this.aliases.add("permissions");
 
-		this.optionalArgs.put("relation", "relation");
-		this.optionalArgs.put("action", "action");
-		this.optionalArgs.put("access", "access");
-
 		this.requirements = new CommandRequirements.Builder(Permission.MANAGE_PERMISSIONS)
 				.playerOnly()
 				.memberOnly()
