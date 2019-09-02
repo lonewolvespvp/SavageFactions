@@ -29,6 +29,7 @@ import com.massivecraft.factions.zcore.util.TextUtil;
 import me.lucko.commodore.CommodoreProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import net.savagellc.trackx.TrackX;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -97,35 +98,12 @@ public class SavageFactions extends MPlugin {
         this.setAutoSave(val);
     }
 
-    public void playSoundForAll(String sound) {
-        for (Player pl : Bukkit.getOnlinePlayers()) {
-            playSound(pl, sound);
-        }
-    }
-
-    public void playSoundForAll(List<String> sounds) {
-        for (Player pl : Bukkit.getOnlinePlayers()) {
-            playSound(pl, sounds);
-        }
-    }
-
-    public void playSound(Player p, List<String> sounds) {
-        for (String sound : sounds) {
-            playSound(p, sound);
-        }
-    }
-
-    public void playSound(Player p, String sound) {
-        float pitch = Float.valueOf(sound.split(":")[1]);
-        sound = sound.split(":")[0];
-        p.playSound(p.getLocation(), Sound.valueOf(sound), pitch, 5.0F);
-    }
 
     @Override
     public void onEnable() {
+        printLogo();
         log("==== Setup ====");
-
-
+        TrackX.startTracking("savagefactions", plugin.getDescription().getVersion(),"com.massivecraft.factions");
         // Vault dependency check.
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             log("Vault is not present, the plugin will not run properly.");
@@ -162,13 +140,14 @@ public class SavageFactions extends MPlugin {
             return;
         }
 
-        new ConfigVersion(this.getConfig()).checkVersion();
-
         this.loadSuccessful = false;
 
         saveDefaultConfig();
         // Load Conf from disk
         Conf.load();
+
+        new ConfigVersion.Checker().checkLevel().TakeActionIfRequired().save();
+
         com.massivecraft.factions.integration.Essentials.setup();
         hookedPlayervaults = setupPlayervaults();
         FPlayers.getInstance().load();
@@ -378,6 +357,16 @@ public class SavageFactions extends MPlugin {
         System.out.println("`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'");
     }
 
+    private void printLogo() {
+        System.out.println("\n __                               ___          _   _                 \n" +
+                "/ _\\ __ ___   ____ _  __ _  ___  / __\\_ _  ___| |_(_) ___  _ __  ___ \n" +
+                "\\ \\ / _` \\ \\ / / _` |/ _` |/ _ \\/ _\\/ _` |/ __| __| |/ _ \\| '_ \\/ __|\n" +
+                "_\\ \\ (_| |\\ V / (_| | (_| |  __/ / | (_| | (__| |_| | (_) | | | \\__ \\\n" +
+                "\\__/\\__,_| \\_/ \\__,_|\\__, |\\___\\/   \\__,_|\\___|\\__|_|\\___/|_| |_|___/\n" +
+                "                     |___/                                           \n" +
+                "Made with love, by ProSavage & SavageLLC Team.");
+    }
+
     @Override
     public void onDisable() {
         // only save data if plugin actually completely loaded successfully
@@ -446,21 +435,6 @@ public class SavageFactions extends MPlugin {
         return Conf.logPlayerCommands;
     }
 
-    public void createTimedHologram(final Location location, String text, Long timeout) {
-        ArmorStand as = (ArmorStand) location.add(0.5, 1, 0.5).getWorld().spawnEntity(location, EntityType.ARMOR_STAND); //Spawn the ArmorStand
-        as.setVisible(false); //Makes the ArmorStand invisible
-        as.setGravity(false); //Make sure it doesn't fall
-        as.setCanPickupItems(false); //I'm not sure what happens if you leave this as it is, but you might as well disable it
-        as.setCustomName(SavageFactions.plugin.color(text)); //Set this to the text you want
-        as.setCustomNameVisible(true); //This makes the text appear no matter if your looking at the entity or not
-        final ArmorStand armorStand = as;
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(SavageFactions.plugin, () -> {
-                    armorStand.remove();
-                    getLogger().info("Removing Hologram.");
-                }
-                , timeout * 20);
-    }
 
     @Override
     public boolean handleCommand(CommandSender sender, String commandString, boolean testOnly) {
@@ -479,14 +453,20 @@ public class SavageFactions extends MPlugin {
         FCommand commandsEx = cmdBase;
         List<String> completions = new ArrayList<>();
 
-        if (context.args.size() == 1) {
+        // Check for "" first arg because spigot is mangled.
+        if (context.args.get(0).equals("")) {
+            for (FCommand subCommand : commandsEx.subCommands) {
+                if (subCommand.requirements.playerOnly && sender.hasPermission(subCommand.requirements.permission.node) && subCommand.visibility != CommandVisibility.INVISIBLE)
+                    completions.addAll(subCommand.aliases);
+            }
+            return completions;
+        } else if (context.args.size() == 1) {
             for (; !commandsList.isEmpty() && !context.args.isEmpty(); context.args.remove(0)) {
                 String cmdName = context.args.get(0).toLowerCase();
                 boolean toggle = false;
                 for (FCommand fCommand : commandsList) {
                     for (String s : fCommand.aliases) {
                         if (s.startsWith(cmdName)) {
-                            commandsEx = fCommand;
                             commandsList = fCommand.subCommands;
                             completions.addAll(fCommand.aliases);
                             toggle = true;
@@ -494,16 +474,6 @@ public class SavageFactions extends MPlugin {
                         }
                     }
                     if (toggle) break;
-                }
-
-            }
-            if (context.args.isEmpty()) {
-                for (FCommand subCommand : commandsEx.subCommands) {
-                    if (handleCommand(sender, cmdValid + " " + subCommand.aliases.get(0), true)
-                            && subCommand.requirements.playerOnly
-                            && sender.hasPermission(subCommand.requirements.permission.node)
-                            && subCommand.visibility != CommandVisibility.INVISIBLE)
-                        completions.addAll(subCommand.aliases);
                 }
             }
             String lastArg = args[args.length - 1].toLowerCase();
@@ -516,23 +486,16 @@ public class SavageFactions extends MPlugin {
 
         } else {
             String lastArg = args[args.length - 1].toLowerCase();
-            if (context.args.size() >= 2) {
-                for (Role value : Role.values()) completions.add(value.nicename);
-                for (Relation value : Relation.values()) completions.add(value.nicename);
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) completions.add(player.getName());
-
-               List<Faction> facs = Factions.getInstance().getAllFactions().stream().filter(f -> f.getTag().startsWith(lastArg)).collect(Collectors.toList());
-                for (Faction fac : facs) completions.add(fac.getTag());
-
-            }
-            completions = completions.stream()
-                    .filter(m -> m.toLowerCase().startsWith(lastArg))
-                    .collect(Collectors.toList());
-
+            for (Role value : Role.values()) completions.add(value.nicename);
+            for (Relation value : Relation.values()) completions.add(value.nicename);
+            // The stream and foreach from the old implementation looped 2 times, by looping all players -> filtered -> looped filter and added -> filtered AGAIN at the end.
+            // This loops them once and just adds, because we are filtering the arguments at the end anyways
+            for (Player player : Bukkit.getServer().getOnlinePlayers()) completions.add(player.getName());
+            for (Faction faction : Factions.getInstance().getAllFactions()) completions.add(ChatColor.stripColor(faction.getTag()));
+            completions = completions.stream().filter(m -> m.toLowerCase().startsWith(lastArg)).collect(Collectors.toList());
             return completions;
         }
     }
-
 
     // -------------------------------------------- //
     // Functions for other plugins to hook into

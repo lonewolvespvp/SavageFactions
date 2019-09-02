@@ -78,6 +78,7 @@ public class Conf {
     public static transient boolean chatTagHandledByAnotherPlugin = false;
     public static boolean chatTagRelationColored = true;
     public static String chatTagReplaceString = "[FACTION]";
+    public static String chatTagReplaceTitleString = "[FACTION_TITLE]";
     public static String chatTagInsertAfterString = "";
     public static String chatTagInsertBeforeString = "";
     public static int chatTagInsertIndex = 0;
@@ -347,8 +348,8 @@ public class Conf {
     public static String mapYouAreHereIcon = "\u271c";
     public static String mapFlatIcon = "\u2589";
 
-    public static List<String> mapKeyChrs = new ArrayList<>(Arrays.asList("\u2726", "\u2734", "\u2735", "\u2777", "\u2778", "\u2779", "\u277a", "\u277b", "\u277c", "\u277d", "\u277e", "\u277f"));
-
+    public static char[] mapKeyChrs = "\u2726\u2734\u2735\u2777\u2778\u2779\u277a\u277b\u277c\u277d\u277e\u277f".toCharArray();
+//    public static transient char[] mapKeyChrs = "\\/#$%=&^ABCDEFGHJKLMNOPQRSTUVWXYZ1234567890abcdeghjmnopqrsuvwxyz?".toCharArray();
 
     // Grace Period Settings
     public static boolean graceEnabled = false;
@@ -388,6 +389,12 @@ public class Conf {
     // Persistance
     // -------------------------------------------- //
     public static Item particleGUIBackgroundItem = new Item("&c ", Collections.emptyList(), XMaterial.GRAY_STAINED_GLASS_PANE, 1);
+
+    public static boolean fchestEnabled = true;
+    public static String fchestInventoryTitle = "&2&lFaction Chest";
+
+    // Use this to not fuck the server's disk.
+    //   public static int maxChestLogItems = 1000;
 
     static {
 
@@ -473,7 +480,6 @@ public class Conf {
         safeZoneNerfedCreatureTypes.add(EntityType.WITHER);
         safeZoneNerfedCreatureTypes.add(EntityType.ZOMBIE);
         // Is this called lazy load?
-        defaultFactionPermissions.put("LEADER", new DefaultPermissions(true));
         defaultFactionPermissions.put("COLEADER", new DefaultPermissions(true));
         defaultFactionPermissions.put("MODERATOR", new DefaultPermissions(true));
         defaultFactionPermissions.put("NORMAL MEMBER", new DefaultPermissions(false));

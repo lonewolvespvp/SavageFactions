@@ -15,7 +15,7 @@
 # This will spam your console with information that is useful if you know how to read the source.
 # It's suggested that you only turn this on at the direction of a developer.
 debug: false
-Config-Verion: 1
+Config-Version: 1
 
 
 # Prevent find factions exploit
@@ -396,7 +396,6 @@ help:
 # 2nd: The Action GUI, here you define the permission of the clicked Action using click types,
 # depending on the click type it will set the permission differently:
 # Left Click: ALLOW
-# Middle Click: UNDEFINED
 # Right Click: DENY
 #
 #
@@ -448,7 +447,6 @@ fperm-gui:
       Access-Colors:
         Allow: '&a'
         Deny: '&c'
-        Undefined: '&7'
       Materials:
         build: COBBLESTONE
         destroy: DIAMOND_PICKAXE
@@ -521,12 +519,11 @@ fperm-gui:
           - ''
           - '&7Left click to &a&nAllow&7.'
           - '&7Right click to &c&nDeny&7.'
-          - '&7Middle click to &7&nUndefine&7.'
     # Back item will be take you to the previous GUI
     back-item:
       Type: ARROW
       Name: '&c&l<- Back'
-      lore:
+      Lore:
         - '&7Click to return to previous menu.'
     # Dummy Items
     dummy-item:
@@ -538,7 +535,7 @@ fperm-gui:
         # +------------------------------------------------------+ #
         # |                  Faction Warp GUI                    | #
         # +------------------------------------------------------+ #
-        ############################################################
+        ############################################################1
 fwarp-gui:
   name: "Faction Warps"
   rows: 3
@@ -659,9 +656,7 @@ fvault:
 # |                  Faction Chest                       | #
 # +------------------------------------------------------+ #
 ############################################################
-fchest:
-  Enabled: true
-  Inventory-Title: '&2&lFaction Chest'
+  # Chest options can now be found in conf.json, search "fchest".
   # Chest size upgrades can be configured in the upgrades section of config
 
 ############################################################

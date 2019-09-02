@@ -42,7 +42,7 @@ public class PermissableActionFrame {
                 e.setCancelled(true);
                 if (PermissableAction.fromSlot(e.getSlot()) == action) {
                     Access access;
-                    boolean success = false;
+                    boolean success;
                     switch (e.getClick()) {
                         case LEFT:
                             access = Access.ALLOW;
@@ -53,9 +53,6 @@ public class PermissableActionFrame {
                             success = fplayer.getFaction().setPermission(perm, action, access);
                             break;
                         case MIDDLE:
-                            access = Access.UNDEFINED;
-                            success = fplayer.getFaction().setPermission(perm, action, access);
-                            break;
                         default:
                             return;
                     }

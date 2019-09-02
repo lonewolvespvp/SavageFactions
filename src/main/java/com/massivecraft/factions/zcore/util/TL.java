@@ -65,6 +65,7 @@ public enum TL {
 	/**
 	 * Command translations
 	 */
+	COMMAND_USEAGE_TEMPLATE_COLOR("&c"),
 
 	/**
 	 * Messsges for /f help
@@ -118,6 +119,11 @@ public enum TL {
 	/**
 	 * Messsges for Faction Admins/Mods
 	 */
+
+	COMMAND_CONTEXT_ADMINISTER_DIF_FACTION("&c[!] %s is not in the same faction as you."),
+    COMMAND_CONTEXT_ADMINISTER_ADMIN_REQUIRED("&c[!] Only the faction admin can do that."),
+    COMMAND_CONTEXT_ADMINISTER_SAME_RANK_CONTROL("&c[!] Moderators can't control each other..."),
+    COMMAND_CONTEXT_ADMINISTER_MOD_REQUIRED("&c[!] You must be a faction moderator to do that."),
 
 	COMMAND_UPGRADES_DESCRIPTION("&cOpen the Upgrades Menu"),
 
@@ -212,7 +218,7 @@ public enum TL {
 	COMMAND_CHATSPY_DESCRIPTION("Enable admin chat spy mode"),
 
 	COMMAND_CLAIM_INVALIDRADIUS("&c&l[!]&7 If you specify a &cradius&7, it must be at least &c1&7."),
-	COMMAND_CLAIM_DENIED("&c&l[!]&7 You &cdo not &7have &cpermission&7 to &cclaim&7 in a radius."),
+	COMMAND_CLAIM_DENIED("&c&l[!]&7 You &cdo not &7have &cpermission&7 to &cclaim&7 this faction's land"),
 	COMMAND_CLAIM_DESCRIPTION("Claim land from where you are standing"),
 
 	COMMAND_CLAIMLINE_INVALIDRADIUS("&c&l[!]&7 If you &cspecify&7 a distance, it must be at least &c1&7."),
@@ -637,7 +643,7 @@ public enum TL {
 
 
 	COMMMAND_GRACE_TOGGLED("&c&lGrace has now been %1$s"),
-	COMMANd_GRACE_DESCRIPTION("Does grace toggling"),
+	COMMAND_GRACE_DESCRIPTION("Does grace toggling"),
 
 	COMMAND_SHOW_NOFACTION_SELF("You are not in a faction"),
 	COMMAND_SHOW_NOFACTION_OTHER("That's not a faction"),
@@ -740,7 +746,7 @@ public enum TL {
 	COMMAND_TNT_DEPOSIT_SUCCESS("&cSuccessfully deposited tnt."),
 	COMMAND_TNT_EXCEEDLIMIT("&cThis exceeds the bank limit!"),
 	COMMAND_TNT_WIDTHDRAW_SUCCESS("&cSuccessfully withdrew tnt."),
-	COMMAND_TNT_WIDTHDRAW_NOTENOUGH("&cNot enough tnt in bank."),
+	COMMAND_TNT_WIDTHDRAW_NOTENOUGH_TNT("&cNot enough tnt in bank."),
 	COMMAND_TNT_DEPOSIT_NOTENOUGH("&cNot enough tnt in tnt inventory."),
 	COMMAND_TNT_AMOUNT("&cYour faction has {amount} tnt in the tnt bank."),
 	COMMAND_TNT_POSITIVE("&cPlease use positive numbers!"),
@@ -756,8 +762,10 @@ public enum TL {
 	COMMAND_TNTFILL_AMOUNTMAX("&c&l[!] &7The max amount is {max}"),
 	COMMAND_TNTFILL_MOD("&c&l[!] &7Tnt will be used from the faction bank because you dont have the specified amount in your inventory and you are a {role}"),
 	COMMAND_TNTFILL_DESCRIPTION("Fill tnt into dispensers around you"),
+	COMMAND_TNTFILL_NODISPENSERS("&c&l[!] &7No dispensers were found in a radius of {radius} blocks."),
 
 	COMMAND_UNBAN_DESCRIPTION("Unban someone from your Faction"),
+    COMMAND_UNBAN_TARGET_IN_OTHER_FACTION("&c%1$s is not in your faction!"),
 	COMMAND_UNBAN_NOTBANNED("&7%s &cisn't banned. Not doing anything."),
 	COMMAND_UNBAN_UNBANNED("&e%1$s &cunbanned &7%2$s"),
 	COMMAND_UNBAN_TARGET("&aYou were unbanned from &r%s"),
@@ -853,12 +861,13 @@ public enum TL {
 	GENERIC_YOU("you"),
 	GENERIC_YOURFACTION("your faction"),
 	GENERIC_NOPERMISSION("You don't have permission \"%1$s\" required to %2$s."),
+	GENERTIC_ACTION_NOPERMISSION("You don't have permission to use %1$s"),
 	GENERIC_FPERM_NOPERMISSION("&7The faction leader does not allow you to &c%1$s."),
 	GENERIC_DOTHAT("do that"),  //Ugh nuke this from high orbit
-    GENERIC_NOPLAYERMATCH("No player match found for \"<plugin>%1$s\"."),
-    GENERIC_NOPLAYERFOUND("No player \"<plugin>%1$s\" could not be found."),
+    GENERIC_NOPLAYERMATCH("No player match found for \"%1$s\"."),
+    GENERIC_NOPLAYERFOUND("No player \"%1$s\" could not be found."),
     GENERIC_ARGS_TOOFEW("Too few arguments. Use like this:"),
-    GENERIC_ARGS_TOOMANY("Strange argument \"<plugin>%1$s\". Use the command like this:"),
+    GENERIC_ARGS_TOOMANY("Strange argument \"%1$s\". Use the command like this:"),
 	GENERIC_DEFAULTDESCRIPTION("Default faction description :("),
 	GENERIC_OWNERS("Owner(s): %1$s"),
 	GENERIC_PUBLICLAND("Public faction land."),
@@ -1005,7 +1014,7 @@ public enum TL {
 	DEFAULT_PREFIX("default-prefix", "{relationcolor}[{faction}]"),
 	FACTION_LOGIN("faction-login", "&e%1$s &9logged in."),
 	FACTION_LOGOUT("faction-logout", "&e%1$s &9logged out.."),
-	NOFACTION_PREFIX("nofactions-prefix", "&6[&a4-&6]&r"),
+    NOFACTION_PREFIX("nofactions-prefix", "&6[&a-&6]&r"),
 	DATE_FORMAT("date-format", "MM/d/yy h:ma"), // 3/31/15 07:49AM
 
 	/**

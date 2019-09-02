@@ -222,7 +222,16 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     public void setRole(Role role) {
-        this.role = role;
+        if (this.role == role) {
+            return;
+        }
+
+        FPlayerRoleChangeEvent event = new FPlayerRoleChangeEvent(getFaction(), this, role);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            this.role = event.getTo();
+        }
     }
 
     public double getPowerBoost() {
@@ -591,7 +600,10 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         PowerRegenEvent powerRegenEvent = new PowerRegenEvent(getFaction(), this);
-        Bukkit.getScheduler().runTask(SavageFactions.plugin, () -> Bukkit.getServer().getPluginManager().callEvent(powerRegenEvent));
+        if (Bukkit.getPluginManager().getPlugin("SavageFactions") != null) {
+            Bukkit.getScheduler().runTask(SavageFactions.plugin, () -> Bukkit.getServer().getPluginManager().callEvent(powerRegenEvent));
+
+        }
 
         if (!powerRegenEvent.isCancelled())
             this.alterPower(millisPassed * Conf.powerPerMinute / 60000); // millisPerMinute : 60 * 1000
@@ -791,8 +803,6 @@ public abstract class MemoryFPlayer implements FPlayer {
             error = SavageFactions.plugin.txt.parse(TL.CLAIM_CANTCLAIM.toString(), forFaction.describeTo(this));
         } else if (forFaction == currentFaction) {
             error = SavageFactions.plugin.txt.parse(TL.CLAIM_ALREADYOWN.toString(), forFaction.describeTo(this, true));
-        } else if (this.getRole().value < Role.MODERATOR.value) {
-            error = SavageFactions.plugin.txt.parse(TL.CLAIM_MUSTBE.toString(), Role.MODERATOR.getTranslation());
         } else if (forFaction.getFPlayers().size() < Conf.claimsRequireMinFactionMembers) {
             error = SavageFactions.plugin.txt.parse(TL.CLAIM_MEMBERS.toString(), Conf.claimsRequireMinFactionMembers);
         } else if (currentFaction.isSafeZone()) {
@@ -892,7 +902,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         if (!damage) {
-            msg(TL.COMMAND_FLY_CHANGE, fly ? "enabled" : "disabled");
+            msg(TL.COMMAND_FLY_CHANGE, fly ? TL.GENERIC_ENABLED : TL.GENERIC_DISABLED);
             if (!fly) {
                 sendMessage(TL.COMMAND_FLY_COOLDOWN.toString().replace("{amount}", SavageFactions.plugin.getConfig().getInt("fly-falldamage-cooldown", 3) + ""));
             }
@@ -937,7 +947,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         Access access = faction.getAccess(this, PermissableAction.FLY);
-        return access == null || access == Access.UNDEFINED || access == Access.ALLOW;
+        return access == null || access == Access.ALLOW;
     }
 
     public boolean shouldTakeFallDamage() {

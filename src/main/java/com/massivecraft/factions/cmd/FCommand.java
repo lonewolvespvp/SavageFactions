@@ -205,7 +205,7 @@ public abstract class FCommand {
  */
     public String getUseageTemplate(CommandContext context, boolean addShortHelp) {
         StringBuilder ret = new StringBuilder();
-        ret.append(SavageFactions.plugin.txt.parseTags("<c>"));
+        ret.append(SavageFactions.plugin.color(TL.COMMAND_USEAGE_TEMPLATE_COLOR.toString()));
         ret.append('/');
 
         for (FCommand fc : context.commandChain) {
@@ -232,12 +232,12 @@ public abstract class FCommand {
         }
 
         if (args.size() > 0) {
-            ret.append(SavageFactions.plugin.txt.parseTags("<p> "));
+            ret.append(SavageFactions.plugin.txt.parseTags(" "));
             ret.append(TextUtil.implode(args, " "));
         }
 
         if (addShortHelp) {
-            ret.append(SavageFactions.plugin.txt.parseTags(" <i>"));
+            ret.append(SavageFactions.plugin.txt.parseTags(" "));
             ret.append(this.getHelpShort());
         }
 
