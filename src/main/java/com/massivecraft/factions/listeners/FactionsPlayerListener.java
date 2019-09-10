@@ -43,6 +43,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 
+
 public class FactionsPlayerListener implements Listener {
 
     // Map of saving falling players from fall damage after F-Fly leaves.
@@ -76,6 +77,8 @@ public class FactionsPlayerListener implements Listener {
 
         // We handle ownership protection below.
 
+        if (me.getFaction() == otherFaction) return true;
+
         if (SavageFactions.plugin.getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() > otherFaction.getPowerRounded()) return true;
 
         if (otherFaction.isWilderness()) {
@@ -101,7 +104,7 @@ public class FactionsPlayerListener implements Listener {
         }
 
         Access access = otherFaction.getAccess(me, PermissableAction.ITEM);
-        return CheckPlayerAccess(player, me, loc, myFaction, access, PermissableAction.ITEM, false);
+        return CheckPlayerAccess(player, me, loc, otherFaction, access, PermissableAction.ITEM, false);
     }
 
     @SuppressWarnings("deprecation")
@@ -221,21 +224,27 @@ public class FactionsPlayerListener implements Listener {
         boolean doPain = pain || Conf.handleExploitInteractionSpam; // Painbuild should take priority. But we want to use exploit interaction as well.
         if (access != null) {
             boolean landOwned = (factionToCheck.doesLocationHaveOwnersSet(loc) && !factionToCheck.getOwnerList(loc).isEmpty());
-            if ((landOwned && factionToCheck.getOwnerListString(loc).contains(player.getName())) || (me.getRole() == Role.LEADER && me.getFactionId().equals(factionToCheck.getId())))
+            if ((landOwned && factionToCheck.getOwnerListString(loc).contains(player.getName())) || (me.getRole() == Role.LEADER && me.getFactionId().equals(factionToCheck.getId()))) {
                 return true;
+            }
             else if (landOwned && !factionToCheck.getOwnerListString(loc).contains(player.getName())) {
                 me.msg(TL.ACTIONS_OWNEDTERRITORYDENY, factionToCheck.getOwnerListString(loc));
                 if (doPain) player.damage(Conf.actionDeniedPainAmount);
                 return false;
-            } else if (!landOwned && access == Access.ALLOW) return true;
+            } else if (!landOwned && access == Access.ALLOW) {
+                return true;
+            }
             else {
                 me.msg(TL.PLAYER_USE_TERRITORY, action, factionToCheck.getTag(me.getFaction()));
                 return false;
             }
         }
+
         // Approves any permission check if the player in question is a leader AND owns the faction.
         if (me.getRole().equals(Role.LEADER) && me.getFaction().equals(factionToCheck)) return true;
-        me.msg(TL.PLAYER_USE_TERRITORY, action, factionToCheck.getTag(me.getFaction()));
+        if (factionToCheck != null) {
+            me.msg(TL.PLAYER_USE_TERRITORY, action, factionToCheck.getTag(me.getFaction()));
+        }
         return false;
     }
 
@@ -687,7 +696,7 @@ public class FactionsPlayerListener implements Listener {
         Player player = event.getPlayer();
         // Check if the material is bypassing protection
         if (block == null) return;  // clicked in air, apparently
-        if (Conf.territoryBypasssProtectedMaterials.contains(block.getType())) return;
+        if (Conf.territoryBypasssProtectedMaterials.contains(event.getItem().getType())) return;
 
         if (GetPermissionFromUsableBlock(block.getType()) != null) {
             if (!canPlayerUseBlock(player, block, false)) {
